@@ -1,5 +1,3 @@
-from bencode_generator import TestCaseGenerator
-
 from src.decoder import Decoder
 import pytest
 
@@ -7,17 +5,37 @@ import pytest
 def decoder():
     return Decoder()
 
-@pytest.fixture
-def generator():
-    return TestCaseGenerator()
+def test_string(decoder):
+    string_1 = b"4:spam"
+    string_2 = b""
 
-def test_string(decoder, generator):
-    for i in range(100):
-        testcase = generator.generate_bencode_string(50)
-        assert decoded == b"spam"
+    dec_string_1 = decoder.decode(string_1)
+    dec_string_2 = decoder.decode(string_2)
 
+    assert dec_string_1 == "spam"
+    assert dec_string_2 == ""
 
 def test_int(decoder):
     num = b"i45e"
-    decoded
+    dec_num = decoder.decode(num)
+    assert dec_num == 45
 
+def test_list(decoder):
+    list_1 = b"l4:spam4:eggse"
+    list_2 = b"le"
+
+    dec_list_1 = decoder.decode(list_1)
+    dec_list_2 = decoder.decode(list_2)
+
+    assert dec_list_1 == ["spam", "eggs"]
+    assert dec_list_2 == []
+
+def test_dict(decoder):
+    dict_1 = b"d9:publisher3:bob17:publisher-webpage15:www.example.com18:publisher.location4:homee"
+    dict_2 = b"de"
+
+    dec_dict_1 = decoder.decode(dict_1)
+    dec_dict_2 = decoder.decode(dict_2)
+
+    assert dec_dict_1 == {"publisher": "bob", "publisher-webpage": "www.example.com", "publisher.location": "home"}
+    assert dec_dict_2 == {}

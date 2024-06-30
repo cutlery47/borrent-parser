@@ -52,7 +52,3 @@ class TestCaseGenerator:
             return self.generate_list(max_string_len, max_int, max_list_len, max_dict_keys)
         else:
             return self.generate_dict(max_string_len, max_int, max_list_len, max_dict_keys)
-
-
-generator = TestCaseGenerator()
-print(generator.generate_dict(10, 50, 2, 2))
