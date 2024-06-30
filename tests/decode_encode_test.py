@@ -1,5 +1,5 @@
-from src.decoder import Decoder
-from src.encoder import Encoder
+from src import Decoder
+from src import Encoder
 from tests.testcase_generator import TestCaseGenerator
 import pytest
 
