@@ -9,6 +9,9 @@ class Decoder:
         return self._decode(data, 0)[0]
 
     def _decode(self, data: bytes, start: int) -> (Union[dict, int, str, list], int):
+        if len(data) == 0:
+            return "", 0
+
         if data[start] == ord('i'):
             res = self._decode_int(data, i=start+1)
         elif data[start] == ord('l'):
@@ -23,9 +26,16 @@ class Decoder:
     @staticmethod
     def _decode_int(data: bytes, i: int) -> (int, int):
         res = 0
-        while data[i] != ord('e'):
-            res = res * 10 + (data[i] - ascii_digits_start)
+        mult = 1
+
+        if data[i] == ord("-"):
+            mult = -1
             i += 1
+
+        while data[i] != ord('e'):
+            res = res * 10 + (data[i] - ascii_digits_start) * mult
+            i += 1
+
         return res, i + 1
 
     @staticmethod
@@ -35,7 +45,7 @@ class Decoder:
             strlen = strlen * 10 + (data[i] - ascii_digits_start)
             i += 1
         res = data[i + 1: i + strlen + 1]
-        return res, i + strlen + 1
+        return res.decode(encoding="ISO-8859-1"), i + strlen + 1
 
     def _decode_dict(self, data: bytes, i: int) -> (dict, int):
         res = {}
@@ -51,5 +61,4 @@ class Decoder:
             el, i = self._decode(data, i)
             res.append(el)
         return res, i + 1
-
 
