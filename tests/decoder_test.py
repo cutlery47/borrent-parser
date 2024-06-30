@@ -1,4 +1,4 @@
-from src.decoder import Decoder
+from src import Decoder
 import pytest
 
 @pytest.fixture

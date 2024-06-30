@@ -1,4 +1,4 @@
-from src.encoder import Encoder
+from src import Encoder
 import pytest
 
 @pytest.fixture
