@@ -1,5 +1,7 @@
 from typing import Union
 
+from io import BytesIO
+
 # value for bytes -> int conversion
 ascii_digits_start = 48
 
@@ -44,8 +46,10 @@ class Decoder:
         while data[i] != ord(':'):
             strlen = strlen * 10 + (data[i] - ascii_digits_start)
             i += 1
-        res = data[i + 1: i + strlen + 1]
-        return res.decode(encoding="ISO-8859-1"), i + strlen + 1
+        readable_data = BytesIO(data)
+        readable_data.seek(i)
+        res = readable_data.read(strlen)
+        return res.decode(), i + strlen + 1
 
     def _decode_dict(self, data: bytes, i: int) -> (dict, int):
         res = {}

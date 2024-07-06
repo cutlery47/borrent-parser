@@ -15,7 +15,7 @@ class Encoder:
     @staticmethod
     def _encode_str(str_: str) -> bytes:
         length = str(len(str_))
-        return length.encode() + b":" + str_.encode()
+        return length.encode() + b":" + str_.encode(encoding='ISO-8859-1')
 
     @staticmethod
     def _encode_int(int_: int) -> bytes:
